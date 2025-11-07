@@ -8,6 +8,7 @@
 # ---------------------------------------
 
 from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
 import numpy as np
 
 # Module-level state persists across rounds within the same client process
@@ -178,3 +179,24 @@ def update_model(global_model):
     STATE["last_local_weights"] = updated
     print("🔁 Logistic Regression model updated with global parameters.")
     return updated
+
+
+def evaluate_model(global_model, X_test, y_test):
+    """Evaluate global Logistic Regression on client local test data"""
+    try:
+        coef = np.array(global_model["coef"])
+        intercept = np.array(global_model["intercept"]).ravel()
+        classes = global_model.get("classes", [0, 1])
+
+        model = LogisticRegression()
+        model.classes_ = np.array(classes)
+        model.coef_ = coef
+        model.intercept_ = intercept
+
+        preds = model.predict(X_test)
+        acc = accuracy_score(y_test, preds)
+        return acc
+
+    except Exception as e:
+        print(f"⚠️ evaluate_model failed: {e}")
+        return None
