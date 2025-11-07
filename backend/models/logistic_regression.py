@@ -180,9 +180,8 @@ def update_model(global_model):
     print("🔁 Logistic Regression model updated with global parameters.")
     return updated
 
-
 def evaluate_model(global_model, X_test, y_test):
-    """Evaluate global Logistic Regression on client local test data"""
+    """Evaluate global Logistic Regression model on client local test set"""
     try:
         coef = np.array(global_model["coef"])
         intercept = np.array(global_model["intercept"]).ravel()
