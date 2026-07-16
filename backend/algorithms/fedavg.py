@@ -1,5 +1,5 @@
 # ---------------------------------------
-# FLTalk FedAvg Aggregation (Safe & Extensible)
+# FLTalk FedAvg Aggregation 
 # ---------------------------------------
 # - Supports Sklearn weights: {"coef", "intercept", ...}
 # - Supports Torch state_dict: {"layer.weight": [...], ...}
@@ -35,7 +35,7 @@ def average_sklearn(weights_list):
         return base
 
     except Exception as e:
-        print(f"⚠️ Sklearn FedAvg failed: {e} — returning first weights as fallback.")
+        print(f"Sklearn FedAvg failed: {e} — returning first weights as fallback.")
         return weights_list[0]
 
 def average_torch(weights_list):
@@ -62,27 +62,27 @@ def average_torch(weights_list):
         return base
 
     except Exception as e:
-        print(f"⚠️ Torch FedAvg failed: {e} — returning first weights as fallback.")
+        print(f"Torch FedAvg failed: {e} — returning first weights as fallback.")
         return weights_list[0]
 
 
 def aggregate(weights_list):
     """Main dispatch function for FedAvg aggregation."""
     if not weights_list:
-        print("⚠️ No client weights received — returning empty dict.")
+        print("No client weights received — returning empty dict.")
         return {}
 
     sample = weights_list[0]
 
     # Detect type & route accordingly
     if is_sklearn_weights(sample):
-        print("🧠 FedAvg applied to sklearn model.")
+        print("FedAvg applied to sklearn model.")
         return average_sklearn(weights_list)
 
     elif is_torch_weights(sample):
-        print("🧠 FedAvg applied to torch model.")
+        print("FedAvg applied to torch model.")
         return average_torch(weights_list)
 
     else:
-        print("⚠️ Unknown weight format — returning first weights.")
+        print("Unknown weight format — returning first weights.")
         return sample
