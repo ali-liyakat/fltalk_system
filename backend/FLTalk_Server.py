@@ -1,3 +1,13 @@
+"""
+FLTalk Main Server
+
+Communication hub for federated learning experiments. 
+Clients send their local model weights to this server, which stores them until the aggregator fetches them. 
+The aggregator can then compute the global model and send it back to the server, which will distribute it to clients.
+"""
+
+
+
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 import os
@@ -10,6 +20,7 @@ app = FastAPI(title="FLTalk Main Server")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -151,7 +162,7 @@ async def ui_log(req: Request):
 
 
 @app.get("/ui/status")
-async def ui_status(experiment_id: str = "default", offline_after_sec: int = 6):
+async def ui_status(experiment_id: str = "default", offline_after_sec: int = 90):
     _ensure_ui_keys(experiment_id)
     exp = EXPERIMENTS[experiment_id]
 
