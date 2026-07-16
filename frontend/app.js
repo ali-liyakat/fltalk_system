@@ -3,11 +3,9 @@
    ========================================================= */
 
 const CONFIG = {
-  // 🔗 CHANGE THESE VALUES ONLY
-  GITHUB_URL: "https://github.com/ali-liyakat/fltalk_system",
-  // SERVER_URL: "https://fltalk-system.onrender.com",
-  SERVER_URL: "http://127.0.0.1:8000",
-  RUN_EXPERIMENT_PAGE: "./experiment.html"
+  GITHUB_URL: "https://github.com/ali-liyakat/fltalk_system",   // Template repo
+  SERVER_URL: "https://fltalk-system.onrender.com",
+  RUN_EXPERIMENT_PAGE: "/experiment"
 };
 
 /* =========================================================

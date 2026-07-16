@@ -5,8 +5,7 @@ function clamp(n, min, max){
 function $(id){ return document.getElementById(id); }
 
 const UI = window.FL_UI || {
-  MAIN_SERVER_URL: "http://127.0.0.1:8000",
-  // MAIN_SERVER_URL: "https://fltalk-system.onrender.com",
+  MAIN_SERVER_URL: "https://fltalk-system.onrender.com",
   EXPERIMENT_ID: "exp1",
   POLL_STATUS_MS: 1000,
   POLL_LOGS_MS: 700
