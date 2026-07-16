@@ -1,21 +1,18 @@
 # ---------------------------------------
-# Logistic Regression Model Template (FLTalk-safe)
+# Logistic Regression Model Template 
 # ---------------------------------------
-# - Compatible with your current client loop:
-#     exec(model_code, globals()); train_local_model(X, y); update_model(global)
 # - Robust for binary & multiclass
-# - Keeps "classes" across rounds even if aggregator drops them
 # ---------------------------------------
 
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, log_loss
 import numpy as np
 
-# Module-level state persists across rounds within the same client process
+
 STATE = {
-    "classes": None,       # list of class labels
-    "n_features": None,    # int
-    "last_local_weights": None  # for debugging / fallback
+    "classes": None,       
+    "n_features": None,    
+    "last_local_weights": None
 }
 
 def _as_list(x):
@@ -52,17 +49,17 @@ def _shape_sanity(weights):
     intercept = _ensure_1d_intercept(weights.get("intercept", []))
     classes = weights.get("classes", None)
 
-    # If classes are missing but we have STATE, reuse them.
+
     if classes is None and STATE["classes"] is not None:
         classes = STATE["classes"]
 
-    # Align lengths: intercept size should match number of rows in coef
+
     if intercept.shape[0] not in (1, coef.shape[0]):
-        # Fallback: if single intercept is given for multiclass, tile it
+        
         if intercept.shape[0] == 1:
             intercept = np.repeat(intercept, coef.shape[0], axis=0)
         else:
-            # As a last resort, trim/pad to match
+            
             k = coef.shape[0]
             if intercept.shape[0] > k:
                 intercept = intercept[:k]
@@ -70,14 +67,14 @@ def _shape_sanity(weights):
                 pad = np.zeros((k - intercept.shape[0],), dtype=coef.dtype)
                 intercept = np.concatenate([intercept, pad], axis=0)
 
-    # If classes length mismatches but exists, try to reconcile
+    
     if classes is not None:
         if len(classes) != coef.shape[0]:
-            # Try simple fixes: for binary with (1, n_features) coef, keep classes as-is.
+            
             if coef.shape[0] == 1 and len(classes) in (1, 2):
-                pass  # acceptable
+                pass  
             else:
-                # Trim/pad classes for safety
+                
                 classes = list(classes)[:coef.shape[0]]
 
     return coef, intercept, classes
@@ -103,7 +100,7 @@ def train_local_model(
     X_train = np.asarray(X_train)
     y_train = np.asarray(y_train)
 
-    # Remember feature count for future checks
+    
     STATE["n_features"] = int(X_train.shape[1])
 
     model = LogisticRegression(
@@ -122,7 +119,7 @@ def train_local_model(
     coef = _ensure_2d_coef(model.coef_)
     intercept = _ensure_1d_intercept(model.intercept_)
 
-    # Persist classes for future rounds
+    
     STATE["classes"] = _as_list(model.classes_)
 
     weights = {
@@ -135,7 +132,7 @@ def train_local_model(
     }
 
     STATE["last_local_weights"] = weights
-    print("✅ Local Logistic Regression training complete.")
+    print("Local Logistic Regression training complete.")
     return weights
 
 def update_model(global_model):
@@ -151,16 +148,16 @@ def update_model(global_model):
     - Performs shape sanity & reconciliation.
     """
     if not isinstance(global_model, dict):
-        print("⚠️ update_model: global_model not a dict; ignoring.")
+        print("update_model: global_model not a dict; ignoring.")
         return STATE.get("last_local_weights", global_model)
 
     coef, intercept, classes = _shape_sanity(global_model)
 
-    # If global n_features mismatches local data, warn (client preprocessing issue)
+    
     if STATE["n_features"] is not None and coef.shape[1] != STATE["n_features"]:
-        print(f"⚠️ update_model: feature mismatch (global {coef.shape[1]} != local {STATE['n_features']}). "
+        print(f"update_model: feature mismatch (global {coef.shape[1]} != local {STATE['n_features']}). "
               "Ensure consistent preprocessing/columns across clients.")
-        # We still proceed, but this likely indicates a user data issue.
+        
 
     updated = {
         "type": "sklearn",
@@ -171,17 +168,37 @@ def update_model(global_model):
         "n_features": STATE["n_features"],
     }
 
-    # Keep classes sticky across rounds even if aggregator drops them
+    
     if updated["classes"] is None and STATE["classes"] is not None:
         updated["classes"] = STATE["classes"]
 
-    # Persist as the last known synchronized weights
+    
     STATE["last_local_weights"] = updated
-    print("🔁 Logistic Regression model updated with global parameters.")
+    print("Logistic Regression model updated with global parameters.")
     return updated
 
+# def evaluate_model(global_model, X_test, y_test):
+#     """Evaluate global Logistic Regression model on client local test set"""
+#     try:
+#         coef = np.array(global_model["coef"])
+#         intercept = np.array(global_model["intercept"]).ravel()
+#         classes = global_model.get("classes", [0, 1])
+
+#         model = LogisticRegression()
+#         model.classes_ = np.array(classes)
+#         model.coef_ = coef
+#         model.intercept_ = intercept
+
+#         preds = model.predict(X_test)
+#         acc = accuracy_score(y_test, preds)
+#         return acc
+
+#     except Exception as e:
+#         print(f"evaluate_model failed: {e}")
+#         return None
+
 def evaluate_model(global_model, X_test, y_test):
-    """Evaluate global Logistic Regression model on client local test set"""
+    """Evaluate global Logistic Regression model on client local test set (accuracy + logloss)"""
     try:
         coef = np.array(global_model["coef"])
         intercept = np.array(global_model["intercept"]).ravel()
@@ -192,10 +209,20 @@ def evaluate_model(global_model, X_test, y_test):
         model.coef_ = coef
         model.intercept_ = intercept
 
+        # Accuracy
         preds = model.predict(X_test)
         acc = accuracy_score(y_test, preds)
-        return acc
+
+        # Loss (Log Loss) needs probabilities
+        proba = model.predict_proba(X_test)
+
+        # Make sure labels match the class order used in proba columns
+        loss = log_loss(y_test, proba, labels=model.classes_)
+
+        # ✅ return BOTH
+        return float(acc), float(loss)
 
     except Exception as e:
-        print(f"⚠️ evaluate_model failed: {e}")
+        print(f"evaluate_model failed: {e}")
         return None
+
