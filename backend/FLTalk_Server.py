@@ -13,6 +13,8 @@ from fastapi.middleware.cors import CORSMiddleware
 import os
 import json
 import time
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 
 app = FastAPI(title="FLTalk Main Server")
 
