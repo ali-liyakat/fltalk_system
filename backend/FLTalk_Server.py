@@ -32,7 +32,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 FRONTEND_DIR = BASE_DIR / "frontend"
 
-app.mount("/", StaticFiles(directory=str(FRONTEND_DIR), html=True), name="frontend")
+app.mount("/static", StaticFiles(directory=str(FRONTEND_DIR)), name="static")
 
 EXPERIMENTS = {}   
 
@@ -498,5 +498,9 @@ async def fetch_feddeepsmote_global(experiment_id: str = "default", expected_rou
 
 
 @app.get("/")
-def root():
-    return {"msg": "FLTalk Main Server Running"}
+def home():
+    return FileResponse(FRONTEND_DIR / "index.html")
+
+@app.get("/experiment")
+def experiment():
+    return FileResponse(FRONTEND_DIR / "experiment.html")
