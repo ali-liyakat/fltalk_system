@@ -1,6 +1,5 @@
 """
 MLP for MNIST (2-layer Fully Connected Network)
-FLTalk-compatible dynamic model loading.
 
 Accepts MNIST inputs in any of these shapes:
 - (N, 28, 28)
