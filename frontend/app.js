@@ -3,7 +3,7 @@
    ========================================================= */
 
 const CONFIG = {
-  GITHUB_URL: "https://github.com/ali-liyakat/fltalk_system",   // Template repo
+  GITHUB_URL: "https://github.com/ali-liyakat/FLTalk-Templates",   // Template repo
   SERVER_URL: "https://fltalk-system.onrender.com",
   RUN_EXPERIMENT_PAGE: "/experiment"
 };
