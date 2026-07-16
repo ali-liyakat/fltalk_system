@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FLTalk</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="#top">
+        <span class="brand-dot"></span>
+        <span class="brand-name">FLTalk</span>
+      </a>
+
+      <nav class="nav">
+        <a href="#overview">Overview</a>
+        <a href="#workflow">Workflow</a>
+        <a href="#config">Configuration</a>
+        <a href="#server">Server</a>
+      </nav>
+    </div>
+  </header>
+
+ 
+  <!-- HERO SECTION -->
+  <main id="top">
+  <section id="overview" class="hero">
+  <!-- Background “image” layer -->
+  <div class="hero-bg-img" aria-hidden="true"></div>
+
+  <div class="container hero-inner">
+    <div class="hero-grid">
+
+      <!-- LEFT -->
+      <div class="hero-content">
+        <span class="hero-badge">GUI-based Federated Learning Framework</span>
+
+        <h1 class="hero-title">
+          <span class="brand-wordmark">FLTalk</span>
+        </h1>
+
+        <p class="hero-tagline">
+          for <span class="tag-strong">reproducible</span>
+          <span class="tag-gradient">federated experiments</span>
+        </p>
+
+        <p class="hero-description">
+          A a lightweight, GUI based Federated Learning framework designed for running FL experiments locally
+          with multiple clients.
+        </p>
+
+        <ul class="hero-points">
+          <li><span class="bullet-icon bi-1"></span>Local server and flexible number of clients</li>
+          <li><span class="bullet-icon bi-2"></span>Configurable models, algorithms, and datasets</li>
+          <li><span class="bullet-icon bi-3"></span>Simple experiment execution and monitoring</li>
+        </ul>
+      </div>
+
+      <!-- RIGHT (Improved Illustration) -->
+      <div class="hero-visual">
+        <div class="visual-card">
+          <div class="visual-head">
+            <span>Federated topology</span>
+            <span class="visual-sub">Server ↔ Clients</span>
+          </div>
+
+          <svg class="fl-diagram" viewBox="0 0 560 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Federated learning diagram">
+            <defs>
+              <linearGradient id="n1" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#2563eb" stop-opacity="0.95"/>
+                <stop offset="1" stop-color="#7c3aed" stop-opacity="0.85"/>
+              </linearGradient>
+              <linearGradient id="n2" x1="0" y1="1" x2="1" y2="0">
+                <stop offset="0" stop-color="#06b6d4" stop-opacity="0.92"/>
+                <stop offset="1" stop-color="#22c55e" stop-opacity="0.85"/>
+              </linearGradient>
+
+              <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blur"/>
+                <feOffset dx="0" dy="10" result="off"/>
+                <feColorMatrix in="off" type="matrix"
+                  values="0 0 0 0 0
+                          0 0 0 0 0
+                          0 0 0 0 0
+                          0 0 0 0.25 0" result="shadow"/>
+                <feMerge>
+                  <feMergeNode in="shadow"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+
+            <!-- links -->
+            <g stroke="rgba(15,23,42,0.18)" stroke-width="2.2" stroke-linecap="round">
+              <path d="M280 105 C220 140, 210 170, 175 205" />
+              <path d="M280 105 C260 150, 270 165, 280 205" />
+              <path d="M280 105 C340 150, 350 165, 385 205" />
+            </g>
+
+            <!-- server -->
+            <g filter="url(#softShadow)">
+              <circle cx="280" cy="95" r="54" fill="white" opacity="0.95"/>
+              <circle cx="280" cy="95" r="40" fill="url(#n1)" opacity="0.22"/>
+              <circle cx="280" cy="95" r="30" fill="url(#n1)" opacity="0.95"/>
+              <text x="280" y="102" text-anchor="middle" font-size="14" font-weight="700"
+                    fill="white" font-family="ui-sans-serif, system-ui">Server</text>
+            </g>
+
+            <!-- clients -->
+            <g filter="url(#softShadow)">
+              <g>
+                <circle cx="175" cy="220" r="38" fill="white" opacity="0.95"/>
+                <circle cx="175" cy="220" r="24" fill="url(#n2)" opacity="0.90"/>
+                <text x="175" y="226" text-anchor="middle" font-size="12" font-weight="700"
+                      fill="white" font-family="ui-sans-serif, system-ui">Client</text>
+              </g>
+
+              <g>
+                <circle cx="280" cy="220" r="38" fill="white" opacity="0.95"/>
+                <circle cx="280" cy="220" r="24" fill="url(#n2)" opacity="0.90"/>
+                <text x="280" y="226" text-anchor="middle" font-size="12" font-weight="700"
+                      fill="white" font-family="ui-sans-serif, system-ui">Client</text>
+              </g>
+
+              <g>
+                <circle cx="385" cy="220" r="38" fill="white" opacity="0.95"/>
+                <circle cx="385" cy="220" r="24" fill="url(#n2)" opacity="0.90"/>
+                <text x="385" y="226" text-anchor="middle" font-size="12" font-weight="700"
+                      fill="white" font-family="ui-sans-serif, system-ui">Client</text>
+              </g>
+            </g>
+
+            <!-- subtle caption -->
+            <text x="280" y="294" text-anchor="middle" font-size="18" font-weight="bold"
+                  fill="rgba(15,23,42,0.55)" font-family="ui-sans-serif, system-ui">
+              Clients train locally → share weights → server aggregates
+            </text>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+</main>
+
+
+<!-- WORKFLOW SECTION -->
+<section id="workflow" class="section workflow">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-kicker">Workflow</p>
+      <h2 class="section-title">How FLTalk works</h2>
+      <p class="section-subtitle">
+        A simple, repeatable workflow for running federated experiments locally.
+      </p>
+    </div>
+
+    <div class="workflow-grid">
+      <div class="wf-card">
+        <div class="wf-top">
+          <span class="wf-step">01</span>
+          <span class="wf-dot wf-dot-blue"></span>
+        </div>
+        <h3 class="wf-title">Download the code</h3>
+        <p class="wf-text">
+          Get the server and a single client template from GitHub.
+        </p>
+      </div>
+
+      <div class="wf-card">
+        <div class="wf-top">
+          <span class="wf-step">02</span>
+          <span class="wf-dot wf-dot-purple"></span>
+        </div>
+        <h3 class="wf-title">Duplicate clients</h3>
+        <p class="wf-text">
+          Copy the client directory to create as many clients as you want.
+        </p>
+      </div>
+
+      <div class="wf-card">
+        <div class="wf-top">
+          <span class="wf-step">03</span>
+          <span class="wf-dot wf-dot-cyan"></span>
+        </div>
+        <h3 class="wf-title">Configure experiment</h3>
+        <p class="wf-text">
+          Set model, algorithm, dataset, and the server URL inside Client and Server files.
+        </p>
+      </div>
+
+      <div class="wf-card">
+        <div class="wf-top">
+          <span class="wf-step">04</span>
+          <span class="wf-dot wf-dot-green"></span>
+        </div>
+        <h3 class="wf-title">Run & monitor logs</h3>
+        <p class="wf-text">
+          Run server and clients locally, then view logs on the web page.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- CONFIGURATION SECTION -->
+<section id="config" class="section config">
+  <div class="container">
+    <div class="config-head">
+      <div class="config-title-area">
+        <p class="section-kicker">Configuration</p>
+        <h2 class="section-title">Configure your experiment</h2>
+        <p class="section-subtitle">
+          Select a model, aggregation algorithm, and dataset. Then adjust parameters inside the code.
+        </p>
+      </div>
+
+      <div class="config-cta">
+        <a id="downloadBtn" class="btn btn-primary" href="#" target="_blank" rel="noreferrer">
+          Download Code
+        </a>
+        <a id="runBtn" class="btn btn-secondary" href="#">
+          Run Experiment
+        </a>
+      </div>
+    </div>
+
+    <div class="config-grid">
+      <!-- MODELS -->
+      <div class="cfg-card">
+        <div class="cfg-top">
+          <span class="cfg-icon cfg-i-blue"></span>
+          <h3 class="cfg-title">Models</h3>
+        </div>
+        <p class="cfg-text">Use lightweight baselines or deep networks depending on your setup.</p>
+        <div class="chips">
+          <span class="chip">Logistic Regression</span>
+          <span class="chip">MLP</span>
+          <span class="chip">CNN</span>
+          <span class="chip">ResNet18</span>
+          <!-- <span class="chip">LSTM</span> -->
+        </div>
+      </div>
+
+      <!-- ALGORITHMS -->
+      <div class="cfg-card">
+        <div class="cfg-top">
+          <span class="cfg-icon cfg-i-purple"></span>
+          <h3 class="cfg-title">Aggregation Algorithms</h3>
+        </div>
+        <p class="cfg-text">Switch algorithms to compare convergence, stability, and communication cost.</p>
+        <div class="chips">
+          <span class="chip">FedAvg</span>
+          <span class="chip">FedAvgM</span>
+          <span class="chip">FedAdam</span>
+          <!-- <span class="chip">FedOpt</span> -->
+        </div>
+      </div>
+
+      <!-- DATASETS -->
+      <div class="cfg-card">
+        <div class="cfg-top">
+          <span class="cfg-icon cfg-i-green"></span>
+          <h3 class="cfg-title">Datasets</h3>
+        </div>
+        <p class="cfg-text">Use standard datasets or plug-in your custom dataset format.</p>
+        <div class="chips">
+          <span class="chip">MNIST</span>
+          <span class="chip">CIFAR-10</span>
+          <!-- <span class="chip">Traffic Data</span> -->
+          <span class="chip">Custom Dataset</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="config-note">
+      <div class="note-box">
+        <div class="note-title">Typical setup</div>
+        <div class="note-text">
+          Download → copy client folders (Client_1, Client_2, ...) → set server URL → run server first → run clients.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- SERVER URL SECTION -->
+<section id="server" class="section server">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-kicker">Server</p>
+      <h2 class="section-title">Server URL</h2>
+      <p class="section-subtitle">
+        Copy this URL and paste it into your client and server files and agent files to connect with the FLTalk server.
+      </p>
+    </div>
+
+    <div class="server-card">
+      <div class="server-row">
+        <div class="server-label">Active Server URL</div>
+        <div class="server-pill" id="serverStatus">Ready</div>
+      </div>
+
+      <div class="copybox">
+        <code id="serverUrl">https://YOUR-SERVER-URL-HERE</code>
+        <button id="copyBtn" class="copybtn" type="button">Copy</button>
+      </div>
+
+      <div class="server-help">
+        <div class="help-item">
+          <span class="help-dot hd-blue"></span>
+          Start the server first, then run clients locally.
+        </div>
+        <div class="help-item">
+          <span class="help-dot hd-green"></span>
+          If you change the server URL, update it in each client folder.
+        </div>
+        <div class="help-item">
+          <span class="help-dot hd-purple"></span>
+          The Experiment page shows logs (lightweight monitoring).
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer-inner">
+
+    <!-- LEFT: Project identity -->
+    <div class="footer-block">
+      <div class="footer-brand">
+        <span class="footer-dot"></span>
+        <span class="footer-name">FLTalk</span>
+      </div>
+      <p class="footer-desc">
+        A GUI-assisted Federated Learning framework for local and reproducible experiments.
+      </p>
+    </div>
+
+    <!-- MIDDLE: Academic info -->
+    <div class="footer-block">
+      <div class="footer-title">Academic Affiliation</div>
+      <ul class="footer-list">
+        <li><strong>University:</strong> National Taiwan Ocean University</li>
+        <li><strong>Department:</strong> Computer Science and Engineering</li>
+        <li><strong>Lab:</strong> Smart Networking Lab</li>
+      </ul>
+    </div>
+
+    <!-- RIGHT: Author -->
+    <div class="footer-block">
+      <div class="footer-title">Author</div>
+      <ul class="footer-list">
+        <li><strong>Name:</strong>Liyakat Ali</li>
+        <li><strong>Program:</strong> Master’s Student</li>
+        <!-- <li>
+          <a id="githubLink" class="footer-link" href="#" target="_blank" rel="noreferrer">
+            GitHub Repository
+          </a>
+        </li>
+      </ul> -->
+      <div class="footer-copy">
+        © <span id="year"></span> FLTalk
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+
+  <script src="./app.js"></script>
+</body>
+</html>

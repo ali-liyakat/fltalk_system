@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FLTalk | Run Experiments</title>
+  <link rel="stylesheet" href="./experiment.css" />
+</head>
+
+<body>
+
+  <header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="./index.html">Home</a>
+  </div>
+</header>
+
+
+  <header class="top">
+    <div class="wrap">
+      <h1 class="title">Run Federated Experiments</h1>
+
+      <div class="inputs">
+        <div class="field">
+          <label for="clientsInput">Clients</label>
+          <input id="clientsInput" type="number" min="1" max="50" value="1" />
+        </div>
+
+        <div class="field">
+          <label for="serverInput">Server</label>
+          <input id="serverInput" type="text" value="1" disabled />
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="wrap">
+      <div class="layout">
+        <!-- LEFT: clients boxes -->
+        <section class="panel">
+          <div class="panel-head">Clients</div>
+          <div id="clientsList" class="box-list"></div>
+        </section>
+
+        <!-- RIGHT: server box -->
+        <section class="panel">
+          <div class="panel-head">Server</div>
+          <div class="server-area">
+            <div class="server-box" data-node-type="fed_server" data-node-id="fed_server">fed_server</div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <section class="logs">
+  <div class="wrap">
+    <div class="logs-card">
+      <div class="logs-head">
+        <div>
+          <div class="logs-title">Live Logs</div>
+          <div class="logs-sub">Streaming from the server (status + logs).</div>
+        </div>
+
+        <div class="logs-actions">
+          <button id="clearLogsBtn" class="mini-btn" type="button">Clear</button>
+          <!-- <button id="pauseLogsBtn" class="mini-btn" type="button">Pause</button> -->
+        </div>
+      </div>
+
+      <div id="logsBox" class="logs-box" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+
+<section class="metrics">
+  <div class="wrap">
+    <div class="logs-card">
+      <div class="logs-head">
+        <div>
+          <div class="logs-title">Round-wise Metrics</div>
+          <div class="logs-sub">Client evaluations reported each round.</div>
+        </div>
+      </div>
+      <div id="metricsBox" class="logs-box"></div>
+    </div>
+  </div>
+</section>
+
+  </main>
+
+  
+  <!-- Runtime config (edit these values) -->
+<script>
+  window.FL_UI = {
+    MAIN_SERVER_URL: "http://127.0.0.1:8000",
+    // MAIN_SERVER_URL: "https://fltalk-system.onrender.com",
+    EXPERIMENT_ID: "exp1",
+    POLL_STATUS_MS: 1000,
+    POLL_LOGS_MS: 700
+  };
+</script>
+
+<script src="./experiment.js"></script>
+
+</body>
+</html>
